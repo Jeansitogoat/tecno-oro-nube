@@ -11,12 +11,12 @@ La tienda de los bloques 1 y 2 queda accesible desde Internet. El navegador abre
 
 | Pieza | Servicio | URL |
 |---|---|---|
-| Front-end Angular | Vercel | [PEGAR URL DE VERCEL] |
-| API REST Spring Boot | Railway | [PEGAR URL DE RAILWAY] |
+| Front-end Angular | Vercel | https://tecno-oro-nube.vercel.app |
+| API REST Spring Boot | Railway | https://tecno-oro-api-production.up.railway.app |
 | Base de datos | PostgreSQL en Railway | no es pública; la usa solo la API |
-| Código | GitHub | [PEGAR URL DEL REPOSITORIO] |
+| Código | GitHub | https://github.com/Jeansitogoat/tecno-oro-nube |
 
-La salud de la API es `[PEGAR URL DE RAILWAY]/api/salud`.
+La salud de la API es https://tecno-oro-api-production.up.railway.app/api/salud y responde `{"ok":true,"servicio":"Tecno Oro"}`.
 
 ## Pasos de despliegue
 
@@ -38,7 +38,7 @@ La salud de la API es `[PEGAR URL DE RAILWAY]/api/salud`.
 - Railway no usa el puerto 8080 fijo: Spring lee `PORT`.
 - La base de archivo H2 no permanece en el contenedor: en producción se usa PostgreSQL.
 - Un `localhost` dentro del JavaScript publicado apuntaría al computador del visitante: el build de producción reemplaza `environment.ts` por `environment.production.ts`.
-- [ANOTAR AQUÍ LO QUE FALLE AL DESPLEGAR Y CÓMO SE RESOLVIÓ]
+- El primer intento de registro devolvió 503: la sonda de 2,5 s no alcanzó `smtp.gmail.com:587` desde Railway. La API ahora espera hasta 8 s y, si el 587 no abre, envía el código por el puerto 465 con SSL.
 
 ## Evidencias
 
@@ -49,9 +49,10 @@ La salud de la API es `[PEGAR URL DE RAILWAY]/api/salud`.
 
 ## Prueba funcional
 
-Desde la URL de Vercel se comprobó:
+Contra la API pública, el 11 de noviembre de 2026:
 
-- [ ] Registro o ingreso de un cliente
-- [ ] Consulta del catálogo
-- [ ] Pedido desde el carrito
-- [ ] Cambio de un cliente o un producto con la cuenta de administrador
+- [x] Ingreso de `admin@tecnooro.com` y de `maria.paredes@correo.com`
+- [x] Consulta del catálogo: 10 productos, el primero Samsung Galaxy S21 Ultra
+- [x] Pedido de María Paredes: pedido 1, Samsung Galaxy S21 Ultra, estado EN_PREPARACION
+- [x] Con la cuenta de administrador: crear el producto «Prueba nube», cambiar su precio a 2 y eliminarlo
+- [ ] Registro con código por Gmail: el primer intento falló porque Railway no alcanzó el puerto 587 a tiempo. Queda reintentarlo cuando termine el redespliegue con la sonda de 8 s y el puerto 465
