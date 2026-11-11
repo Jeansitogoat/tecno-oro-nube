@@ -38,7 +38,7 @@ La salud de la API es https://tecno-oro-api-production.up.railway.app/api/salud 
 - Railway no usa el puerto 8080 fijo: Spring lee `PORT`.
 - La base de archivo H2 no permanece en el contenedor: en producción se usa PostgreSQL.
 - Un `localhost` dentro del JavaScript publicado apuntaría al computador del visitante: el build de producción reemplaza `environment.ts` por `environment.production.ts`.
-- El primer intento de registro devolvió 503: la sonda de 2,5 s no alcanzó `smtp.gmail.com:587` desde Railway. La API ahora espera hasta 8 s y, si el 587 no abre, envía el código por el puerto 465 con SSL.
+- El registro devuelve 503. Desde el contenedor de Railway, `smtp.gmail.com` no abre ni en el puerto 587 ni en el 465: los dos intentos terminan en `SocketTimeoutException` a los 8 segundos. La API no muestra el código en pantalla. El ingreso, el catálogo, los pedidos y el CRUD de productos sí funcionan con las cuentas de prueba. El segundo commit no disparó solo el webhook de GitHub; el arreglo se publicó con el CLI de Railway y quedó en estado SUCCESS.
 
 ## Evidencias
 
@@ -55,4 +55,4 @@ Contra la API pública, el 11 de noviembre de 2026:
 - [x] Consulta del catálogo: 10 productos, el primero Samsung Galaxy S21 Ultra
 - [x] Pedido de María Paredes: pedido 1, Samsung Galaxy S21 Ultra, estado EN_PREPARACION
 - [x] Con la cuenta de administrador: crear el producto «Prueba nube», cambiar su precio a 2 y eliminarlo
-- [ ] Registro con código por Gmail: el primer intento falló porque Railway no alcanzó el puerto 587 a tiempo. Queda reintentarlo cuando termine el redespliegue con la sonda de 8 s y el puerto 465
+- [ ] Registro con código por Gmail: Railway no deja salir hacia el SMTP de Gmail. El resto de operaciones de la lista sí quedó comprobado.

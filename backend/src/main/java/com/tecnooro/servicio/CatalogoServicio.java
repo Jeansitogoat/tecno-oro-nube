@@ -90,6 +90,7 @@ public class CatalogoServicio {
     return cuerpo;
   }
 
+  @Transactional(readOnly = true)
   public List<Map<String, Object>> listarPedidos(Usuario usuario) {
     List<Pedido> filas = "ADMIN".equals(usuario.getRol())
         ? pedidos.findAllByOrderByIdAsc()
@@ -97,6 +98,7 @@ public class CatalogoServicio {
     return filas.stream().map(this::vista).toList();
   }
 
+  @Transactional(readOnly = true)
   public Map<String, Object> buscarPedido(Long id, Usuario usuario) {
     Pedido pedido = pedidos.findById(id).orElseThrow(() -> new ErrorApi(404, "No encontramos ese pedido."));
     if (!"ADMIN".equals(usuario.getRol()) && !pedido.getUsuario().getId().equals(usuario.getId())) {
