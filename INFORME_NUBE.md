@@ -38,7 +38,9 @@ La salud de la API es https://tecno-oro-api-production.up.railway.app/api/salud 
 - Railway no usa el puerto 8080 fijo: Spring lee `PORT`.
 - La base de archivo H2 no permanece en el contenedor: en producción se usa PostgreSQL.
 - Un `localhost` dentro del JavaScript publicado apuntaría al computador del visitante: el build de producción reemplaza `environment.ts` por `environment.production.ts`.
-- El registro devuelve 503. Desde el contenedor de Railway, `smtp.gmail.com` no abre ni en el puerto 587 ni en el 465: los dos intentos terminan en `SocketTimeoutException` a los 8 segundos. La API no muestra el código en pantalla. El ingreso, el catálogo, los pedidos y el CRUD de productos sí funcionan con las cuentas de prueba. El segundo commit no disparó solo el webhook de GitHub; el arreglo se publicó con el CLI de Railway y quedó en estado SUCCESS.
+- El registro devuelve 503. Desde el contenedor de Railway, `smtp.gmail.com` no abre ni en el puerto 587 ni en el 465: los dos intentos terminan en `SocketTimeoutException` a los 8 segundos. La API no muestra el código en pantalla. El ingreso, el catálogo y el CRUD de productos sí funcionan con las cuentas de prueba.
+- Al listar pedidos, PostgreSQL con `open-in-view` apagado cerraba la sesión antes de leer el cliente y el producto. Esas consultas quedaron dentro de una transacción. Después del arreglo, María Paredes ve el pedido 1 en `EN_PREPARACION`.
+- El webhook de GitHub no volvió a desplegar solo. Los arreglos se publicaron con el CLI de Railway y quedaron en estado SUCCESS.
 
 ## Evidencias
 
