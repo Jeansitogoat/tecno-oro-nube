@@ -1,0 +1,8 @@
+.DS_Store
+backend/target/
+backend/data/
+backend/config/correo.local.properties
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+*.log
