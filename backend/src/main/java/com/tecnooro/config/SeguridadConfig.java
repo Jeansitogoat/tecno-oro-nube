@@ -53,11 +53,6 @@ public class SeguridadConfig {
     return http.build();
   }
 
-  /**
-   * El navegador de Vercel llama a la API por HTTPS. El token va en Authorization,
-   * no en cookie, así que credentials queda en false.
-   * APP_CORS_ORIGENES puede fijar la URL exacta del frontend.
-   */
   @Bean
   CorsConfigurationSource cors() {
     CorsConfiguration configuracion = new CorsConfiguration();
